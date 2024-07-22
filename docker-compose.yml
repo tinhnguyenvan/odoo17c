@@ -1,4 +1,4 @@
-name: odoo17-c
+name: odoo17
 services:
   odoo_c:
     container_name: odoo_c
