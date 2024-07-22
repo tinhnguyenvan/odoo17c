@@ -1,0 +1,133 @@
+/addons-dev
+.DS_Store
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cython debug symbols
+cython_debug/
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+pip-wheel-metadata/
+share/python-wheels/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+doc/_build/
+
+# PyBuilder
+target/
+
+# Odoo
+odoo/addons/*/static/src/js/.webassets-cache
+odoo/addons/*/node_modules
+#odoo/addons/*/static/lib
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.env.*
+.venv
+
+# Server dumps
+*.dump
+
+# Testing
+coverage/
+tests/__pycache__/
+tests/*.py[cod]
+
+# Other
+*.DS_Store
+*.pyo
+*.~c
+*.so
+*.pyd
+*.pyo
+*.pyp
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*.bak
+*.orig
+*.rej
+*.sublime-workspace
+*.sublime-project
+*.cache
+*.tmp
+
+# Temporary files and folders
+tmp/
+temp/
+*.tmp
+*.temp
+*.log
+*.pid
+*.lock
+odoo-venv/
