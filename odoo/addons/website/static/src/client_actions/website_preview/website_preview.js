@@ -40,7 +40,7 @@ export class WebsitePreview extends Component {
         this.action = useService('action');
         this.orm = useService('orm');
 
-        this.iframeFallbackUrl = this.websiteDomain + '/website/iframefallback';
+        this.iframeFallbackUrl = '/website/iframefallback';
 
         this.iframe = useRef('iframe');
         this.iframefallback = useRef('iframefallback');
@@ -88,7 +88,7 @@ export class WebsitePreview extends Component {
                     }
                 });
             } else {
-                this.initialUrl = `${encodeURI(this.websiteDomain)}/website/force/${encodeURIComponent(this.websiteId)}?path=${encodedPath}`;
+                this.initialUrl = `/website/force/${encodeURIComponent(this.websiteId)}?path=${encodedPath}`;
             }
         });
 
