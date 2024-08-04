@@ -1,4 +1,4 @@
-# CACH 1
+# Option 1
     - run:  docker-compose up -d
     - Link: 127.0.0.1:8069
 
@@ -7,7 +7,7 @@
           - Note: file nginx co dung ssl
       - Add file host /etc/hosts => odoo.test
 
-# CACH 2
+# Option 2
     - Chạy truc tiep:
         - install: pip install --upgrade pip && pip install -r requirements.txt
         - start: ./odoo-bin -c /etc/odoo/odoo-c.conf
