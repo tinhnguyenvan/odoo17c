@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_meta_trader_account,meta.trader.account,model_meta_trader_account,base.group_user,1,1,1,1
+access_meta_trader_history,meta.trader.history,model_meta_trader_history,base.group_user,1,1,1,0

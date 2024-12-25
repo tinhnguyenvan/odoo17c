@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_setting_mt5_inherit_view" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Metatrader" string="Metatrader" name="mt5">
+                    <block title="metatrader" name="metatrader_setting_container">
+                        <setting id="metatrader_settings">
+                            <field name="metatrader_script_path" nolabel="1" class="fw-bold"/>
+                            <span class="o_form_label">
+                                Metatrader module Path
+                            </span>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
