@@ -10,4 +10,4 @@
 # Option 2
     - Chạy truc tiep:
         - install: pip install --upgrade pip && pip install -r requirements.txt
-        - start: ./odoo-bin -c /etc/odoo/odoo17c.conf
+        - start: ./odoo-bin -c ./config/odoo.conf
