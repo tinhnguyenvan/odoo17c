@@ -1,13 +1,13 @@
 name: odoo17
 services:
   web:
-    container_name: web
+    container_name: web_${APP_ENV}
     image: odoo:17
-    depends_on:
-      - db
+#    depends_on:
+#      - db
     ports:
-      - "8069:8069"
-      - "8072:8072"
+      - "${APP_ODOO_PORT}:8069"
+      - "${APP_ODOO_PORT_CHAT}:8072"
     volumes:
       - ./storage/odoo:/var/lib/odoo
       - ./config:/etc/odoo
@@ -18,21 +18,21 @@ services:
     secrets:
       - postgresql_password
     restart: always
-  db:
-    container_name: db
-    image: postgres:15
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_PASSWORD_FILE=/run/secrets/postgresql_password
-      - POSTGRES_USER=odoo
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes:
-      - ./odoo-db-data:/var/lib/postgresql/data/pgdata
-    secrets:
-      - postgresql_password
-    # ports:
-      # - "5432:5432"
-    restart: always
+#  db:
+#    container_name: db
+#    image: postgres:15
+#    environment:
+#      - POSTGRES_DB=postgres
+#      - POSTGRES_PASSWORD_FILE=/run/secrets/postgresql_password
+#      - POSTGRES_USER=odoo
+#      - PGDATA=/var/lib/postgresql/data/pgdata
+#    volumes:
+#      - ./odoo-db-data:/var/lib/postgresql/data/pgdata
+#    secrets:
+#      - postgresql_password
+#    # ports:
+#      # - "5432:5432"
+#    restart: always
 secrets:
   postgresql_password:
     file: ./config/odoo_pg_pass
