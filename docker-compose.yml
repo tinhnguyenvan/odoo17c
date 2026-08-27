@@ -10,7 +10,7 @@ services:
       - "${APP_ODOO_PORT_CHAT}:8072"
     volumes:
       - ./storage/odoo:/var/lib/odoo
-      - ./config:/etc/odoo
+      - ./config/odoo:/etc/odoo
       - ./odoo/addons:/mnt/extra-enterprise-addons
       - ./addons:/mnt/extra-addons
     environment:
