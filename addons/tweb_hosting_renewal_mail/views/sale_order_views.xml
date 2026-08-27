@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 NGUYEN VAN TINH <tinhnguyenvan91@gmail.com>
+    Website: https://tweb.com.vn/ | Tel: 0909977920
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.html)
+-->
+<odoo>
+
+    <record id="view_order_form_hosting_renewal_mail" model="ir.ui.view">
+        <field name="name">sale.order.form.hosting.renewal.mail</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_send_hosting_renewal_mail"
+                        type="object"
+                        string="Gửi mail gia hạn"
+                        class="btn-secondary"
+                        invisible="state not in ['sale', 'done']"/>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="hosting_expiry_date"/>
+                <field name="hosting_renewal_note"
+                       placeholder="VD: Hosting Odoo 17 - erp.sieuthiabc.vn"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_order_tree_hosting_renewal_mail" model="ir.ui.view">
+        <field name="name">sale.order.tree.hosting.renewal.mail</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="before">
+                <field name="hosting_expiry_date" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sales_order_filter_hosting_renewal_mail" model="ir.ui.view">
+        <field name="name">sale.order.search.hosting.renewal.mail</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                <separator/>
+                <filter name="hosting_expiring_30"
+                        string="Sắp hết hạn (30 ngày)"
+                        domain="[('hosting_expiry_date','&gt;=', context_today().strftime('%Y-%m-%d')),
+                                 ('hosting_expiry_date','&lt;=', (context_today() + datetime.timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                <filter name="hosting_expired"
+                        string="Đã hết hạn"
+                        domain="[('hosting_expiry_date','!=',False),
+                                 ('hosting_expiry_date','&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="group_hosting_expiry" string="Tháng hết hạn"
+                        context="{'group_by': 'hosting_expiry_date:month'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

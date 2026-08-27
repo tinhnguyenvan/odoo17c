@@ -20,7 +20,7 @@
 #
 #############################################################################
 {
-    'name': 'TWeb Common',
+    'name': 'tWeb - Common',
     'version': '17.0.1.0.0',
     'category': 'Extra Tools',
     'summary': '',
@@ -35,5 +35,5 @@
     'images': ['static/description/banner.jpg'],
     'installable': True,
     'auto_install': False,
-    'application': False,
+    'application': True,
 }

@@ -1,0 +1,68 @@
+<odoo>
+    <record id="view_real_estate_unit_form" model="ir.ui.view">
+        <field name="name">real.estate.unit.form</field>
+        <field name="model">real.estate.unit</field>
+        <field name="arch" type="xml">
+            <form string="Căn hộ cho thuê lại">
+                <group>
+                    <field name="name"/>
+                    <field name="address"/>
+                    <field name="state"/>
+                </group>
+                <group string="Thông tin thuê gốc">
+                    <field name="rent_price"/>
+                    <field name="rent_start_date"/>
+                    <field name="rent_end_date"/>
+                </group>
+                <group string="Sửa chữa &amp; Cho thuê lại">
+                    <field name="repair_cost"/>
+                    <field name="rental_price"/>
+                    <field name="tenant_id"/>
+                    <field name="profit"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_real_estate_unit_tree" model="ir.ui.view">
+        <field name="name">real.estate.unit.tree</field>
+        <field name="model">real.estate.unit</field>
+        <field name="arch" type="xml">
+            <tree string="Căn hộ">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="rent_price"/>
+                <field name="repair_cost"/>
+                <field name="rental_price"/>
+                <field name="profit"/>
+                <field name="tenant_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_real_estate_unit_pivot" model="ir.ui.view">
+        <field name="name">real.estate.unit.pivot</field>
+        <field name="model">real.estate.unit</field>
+        <field name="arch" type="xml">
+            <pivot string="Báo cáo căn hộ">
+                <field name="state" type="row"/>
+                <field name="revenue" type="measure"/>
+                <field name="profit" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_real_estate_unit" model="ir.actions.act_window">
+        <field name="name">Căn hộ thuê</field>
+        <field name="res_model">real.estate.unit</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_real_estate_root" name="Bất động sản" sequence="500"
+              web_icon="tweb_real_estate_rental,static/description/icon.png">
+        <menuitem id="menu_real_estate_root_level_menu" name="Thông tin xuất hoá đơn">
+            <menuitem id="menu_real_estate_unit" name="Căn hộ cho thuê lại"
+                      action="action_real_estate_unit"/>
+        </menuitem>
+    </menuitem>
+</odoo>

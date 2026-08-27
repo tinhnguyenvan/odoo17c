@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 NGUYEN VAN TINH <tinhnguyenvan91@gmail.com>
+    Website: https://tweb.com.vn/ | Tel: 0909977920
+    License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.html)
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="mail_template_hosting_renewal" model="mail.template">
+            <field name="name">Sale Order: Nhắc gia hạn dịch vụ Hosting</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">{{ '[KHẨN] Dịch vụ đã hết hạn' if object.hosting_expiry_date and object.hosting_days_left &lt; 0 else '[Thông báo] Gia hạn dịch vụ' }} - {{ object.name }}{{ ' - hết hạn %s' % format_date(object.hosting_expiry_date) if object.hosting_expiry_date else '' }}</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="description">Email nhắc gia hạn dịch vụ hosting, có bảng chi tiết dịch vụ và thông tin chuyển khoản.</field>
+            <field name="use_default_to" eval="False"/>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+<div style="margin:0;padding:0;font-size:14px;line-height:1.55;font-family:Arial,Helvetica,sans-serif;color:#3c3c3c;">
+
+    <p style="margin:0 0 12px 0;">
+        Kính gửi <strong t-out="object.partner_id.name or ''">Quý khách</strong>,
+    </p>
+
+    <!-- ================= TRẠNG THÁI ================= -->
+    <t t-if="object.hosting_expiry_date and object.hosting_days_left &lt; 0">
+        <div style="background:#fdecea;border-left:4px solid #d9534f;padding:12px 16px;margin:0 0 18px 0;">
+            Dịch vụ theo hợp đồng <strong t-out="object.name or ''">S00052</strong> đã
+            <strong>hết hạn từ ngày
+            <t t-out="format_date(object.hosting_expiry_date) or ''">31/12/2026</t></strong>
+            (quá hạn <t t-out="abs(object.hosting_days_left)">5</t> ngày).
+            Quý khách vui lòng gia hạn sớm để dịch vụ được khôi phục và tránh mất dữ liệu.
+        </div>
+    </t>
+    <t t-elif="object.hosting_expiry_date">
+        <div style="background:#fff8e1;border-left:4px solid #f0ad4e;padding:12px 16px;margin:0 0 18px 0;">
+            Dịch vụ theo hợp đồng <strong t-out="object.name or ''">S00052</strong> sẽ
+            <strong>hết hạn vào ngày
+            <t t-out="format_date(object.hosting_expiry_date) or ''">31/12/2026</t></strong>
+            (còn <t t-out="object.hosting_days_left">30</t> ngày).
+            Quý khách vui lòng xác nhận gia hạn trước ngày hết hạn để dịch vụ hoạt động liên tục.
+        </div>
+    </t>
+    <t t-else="">
+        <div style="background:#fff8e1;border-left:4px solid #f0ad4e;padding:12px 16px;margin:0 0 18px 0;">
+            Dịch vụ <strong t-out="object.name or ''">S00052</strong> đã đến kỳ gia hạn.
+        </div>
+    </t>
+
+    <!-- ================= THÔNG TIN HỢP ĐỒNG ================= -->
+    <table cellpadding="4" cellspacing="0" style="font-size:13px;margin:0 0 18px 0;">
+        <tr>
+            <td style="color:#7c7c7c;">Mã dịch vụ</td>
+            <td style="padding-left:16px;"><strong t-out="object.name or ''">S00052</strong></td>
+        </tr>
+        <tr t-if="object.client_order_ref">
+            <td style="color:#7c7c7c;">Mã tham chiếu</td>
+            <td style="padding-left:16px;" t-out="object.client_order_ref">PO-2026-01</td>
+        </tr>
+        <tr t-if="object.hosting_renewal_note">
+            <td style="color:#7c7c7c;">Dịch vụ</td>
+            <td style="padding-left:16px;" t-out="object.hosting_renewal_note">erp.sieuthiabc.vn</td>
+        </tr>
+        <tr t-if="object.hosting_expiry_date">
+            <td style="color:#7c7c7c;">Ngày hết hạn</td>
+            <td style="padding-left:16px;">
+                <strong style="color:#d9534f;" t-out="format_date(object.hosting_expiry_date) or ''">31/12/2026</strong>
+            </td>
+        </tr>
+        <tr t-if="object.user_id">
+            <td style="color:#7c7c7c;">Người phụ trách</td>
+            <td style="padding-left:16px;" t-out="object.user_id.name or ''">Nguyễn Văn A</td>
+        </tr>
+    </table>
+
+    <!-- ================= BẢNG CHI TIẾT DỊCH VỤ ================= -->
+    <h4 style="margin:0 0 8px 0;font-size:15px;">Chi tiết dịch vụ gia hạn</h4>
+    <table width="100%" cellpadding="8" cellspacing="0"
+           style="border-collapse:collapse;border:1px solid #e0e0e0;font-size:13px;">
+        <thead>
+            <tr style="background:#f5f5f5;">
+                <th align="left"   style="border:1px solid #e0e0e0;width:45%;">Dịch vụ</th>
+                <th align="center" style="border:1px solid #e0e0e0;">SL</th>
+                <th align="right"  style="border:1px solid #e0e0e0;">Đơn giá</th>
+                <th align="center" style="border:1px solid #e0e0e0;">Thuế</th>
+                <th align="right"  style="border:1px solid #e0e0e0;">Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            <t t-foreach="object.order_line" t-as="line">
+
+                <!-- Dòng tiêu đề mục -->
+                <tr t-if="line.display_type == 'line_section'" style="background:#fafafa;">
+                    <td colspan="5" style="border:1px solid #e0e0e0;font-weight:bold;"
+                        t-out="line.name or ''">Nhóm dịch vụ</td>
+                </tr>
+
+                <!-- Dòng ghi chú -->
+                <tr t-elif="line.display_type == 'line_note'">
+                    <td colspan="5" style="border:1px solid #e0e0e0;color:#7c7c7c;font-style:italic;"
+                        t-out="line.name or ''">Ghi chú</td>
+                </tr>
+
+                <!-- Dòng sản phẩm/dịch vụ -->
+                <tr t-else="">
+                    <td style="border:1px solid #e0e0e0;" t-out="line.name or ''">Hosting Odoo 17 - Gói Business (12 tháng)</td>
+                    <td align="center" style="border:1px solid #e0e0e0;">
+                        <t t-out="line.product_uom_qty">1</t>
+                        <t t-out="line.product_uom.name or ''">Cái</t>
+                    </td>
+                    <td align="right" style="border:1px solid #e0e0e0;">
+                        <t t-out="format_amount(line.price_unit, object.currency_id) or ''">1.000.000 ₫</t>
+                    </td>
+                    <td align="center" style="border:1px solid #e0e0e0;color:#7c7c7c;"
+                        t-out="', '.join(line.tax_id.mapped('name')) or '-'">10%</td>
+                    <td align="right" style="border:1px solid #e0e0e0;">
+                        <t t-out="format_amount(line.price_subtotal, object.currency_id) or ''">1.000.000 ₫</t>
+                    </td>
+                </tr>
+            </t>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" align="right" style="border:1px solid #e0e0e0;">Tạm tính</td>
+                <td align="right" style="border:1px solid #e0e0e0;">
+                    <t t-out="format_amount(object.amount_untaxed, object.currency_id) or ''">1.000.000 ₫</t>
+                </td>
+            </tr>
+            <tr t-if="object.amount_tax">
+                <td colspan="4" align="right" style="border:1px solid #e0e0e0;">Thuế</td>
+                <td align="right" style="border:1px solid #e0e0e0;">
+                    <t t-out="format_amount(object.amount_tax, object.currency_id) or ''">100.000 ₫</t>
+                </td>
+            </tr>
+            <tr style="background:#f5f5f5;">
+                <td colspan="4" align="right" style="border:1px solid #e0e0e0;font-weight:bold;font-size:14px;">
+                    TỔNG CỘNG CẦN THANH TOÁN
+                </td>
+                <td align="right" style="border:1px solid #e0e0e0;font-weight:bold;font-size:15px;color:#d9534f;">
+                    <t t-out="format_amount(object.amount_total, object.currency_id) or ''">1.100.000 ₫</t>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- ================= THANH TOÁN ================= -->
+    <h4 style="margin:22px 0 8px 0;font-size:15px;">Thông tin thanh toán</h4>
+
+    <t t-if="object.company_id.partner_id.bank_ids">
+        <table width="100%" cellpadding="8" cellspacing="0"
+               style="border-collapse:collapse;border:1px solid #e0e0e0;font-size:13px;background:#f9f9f9;">
+            <t t-foreach="object.company_id.partner_id.bank_ids[:1]" t-as="bank">
+                <tr>
+                    <td style="border:1px solid #e0e0e0;color:#7c7c7c;width:35%;">Ngân hàng</td>
+                    <td style="border:1px solid #e0e0e0;">
+                        <strong t-out="bank.bank_id.name or ''">Vietcombank</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #e0e0e0;color:#7c7c7c;">Số tài khoản</td>
+                    <td style="border:1px solid #e0e0e0;">
+                        <strong t-out="bank.acc_number or ''">9909977920</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #e0e0e0;color:#7c7c7c;">Chủ tài khoản</td>
+                    <td style="border:1px solid #e0e0e0;"
+                        t-out="bank.acc_holder_name or object.company_id.name or ''">NGUYEN VAN TINH</td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #e0e0e0;color:#7c7c7c;">Nội dung chuyển khoản</td>
+                    <td style="border:1px solid #e0e0e0;">
+                        <strong style="color:#d9534f;">Gia han <t t-out="object.name or ''">S00052</t></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid #e0e0e0;color:#7c7c7c;">Số tiền</td>
+                    <td style="border:1px solid #e0e0e0;">
+                        <strong t-out="format_amount(object.amount_total, object.currency_id) or ''">1.100.000 ₫</strong>
+                    </td>
+                </tr>
+            </t>
+        </table>
+        <p style="font-size:12px;color:#7c7c7c;margin:8px 0 0 0;">
+            Vui lòng ghi đúng nội dung chuyển khoản để hệ thống đối soát và kích hoạt gia hạn nhanh nhất.
+        </p>
+    </t>
+    <t t-else="">
+        <p>Vui lòng liên hệ bộ phận kinh doanh để nhận thông tin thanh toán.</p>
+    </t>
+
+    <!-- ================= LIÊN HỆ ================= -->
+    <p style="margin:24px 0 10px 0;">
+        Nếu quý khách đã thanh toán, cần xuất hoá đơn hoặc muốn thay đổi gói dịch vụ,
+        vui lòng phản hồi email này hoặc liên hệ theo thông tin bên dưới:
+    </p>
+    <table width="100%" cellpadding="0" cellspacing="0"
+           style="border-collapse:collapse;background:#f9f9f9;border:1px solid #e0e0e0;border-radius:6px;">
+        <tr>
+            <td style="padding:14px 16px;">
+                <table cellpadding="3" cellspacing="0" style="font-size:13px;">
+                    <tr t-if="object.user_id">
+                        <td style="color:#7c7c7c;width:120px;">Người phụ trách</td>
+                        <td style="padding-left:8px;"><strong t-out="object.user_id.name or ''">Nguyễn Văn A</strong></td>
+                    </tr>
+                    <tr t-if="object.user_id and object.user_id.email">
+                        <td style="color:#7c7c7c;">Email</td>
+                        <td style="padding-left:8px;">
+                            <a t-attf-href="mailto:{{ object.user_id.email }}"
+                               style="color:#875A7B;text-decoration:none;" t-out="object.user_id.email">a@tweb.com.vn</a>
+                        </td>
+                    </tr>
+                    <tr t-if="object.user_id and object.user_id.phone">
+                        <td style="color:#7c7c7c;">Điện thoại</td>
+                        <td style="padding-left:8px;" t-out="object.user_id.phone">0909977920</td>
+                    </tr>
+                    <tr t-if="object.company_id.phone">
+                        <td style="color:#7c7c7c;">Hotline</td>
+                        <td style="padding-left:8px;"><strong t-out="object.company_id.phone">0909977920</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <p style="margin:22px 0 0 0;">Trân trọng cảm ơn,<br/>
+        <strong t-out="object.company_id.name or ''">Công ty ABC</strong>
+    </p>
+
+</div>
+            </field>
+        </record>
+
+    </data>
+</odoo>
