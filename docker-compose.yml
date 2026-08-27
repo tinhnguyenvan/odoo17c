@@ -17,6 +17,8 @@ services:
       - PASSWORD_FILE=/run/secrets/postgresql_password
     secrets:
       - postgresql_password
+    networks:
+      - sail_network
     restart: always
 #  db:
 #    container_name: db
@@ -33,6 +35,11 @@ services:
 #    # ports:
 #      # - "5432:5432"
 #    restart: always
+
+networks:
+  sail_network:
+    external: true
+
 secrets:
   postgresql_password:
     file: ./config/odoo_pg_pass
