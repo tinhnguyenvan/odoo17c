@@ -136,3 +136,4 @@ temp/
 odoo-venv/
 
 config/odoo/odoo.conf
+config/odoo_pg_pass
